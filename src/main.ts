@@ -1,24 +1,23 @@
-import './style.css'
-import typescriptLogo from './typescript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.ts'
+import { schema } from 'prosemirror-schema-basic';
+import { EditorState } from 'prosemirror-state';
+import { EditorView } from 'prosemirror-view';
+import 'prosemirror-view/style/prosemirror.css';
+import './style.css';
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-  <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://www.typescriptlang.org/" target="_blank">
-      <img src="${typescriptLogo}" class="logo vanilla" alt="TypeScript logo" />
-    </a>
-    <h1>Vite + TypeScript</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite and TypeScript logos to learn more
-    </p>
-  </div>
-`
+const editor = document.querySelector('#editor');
+if (!editor) {
+  throw new Error('Could not find #editor');
+}
 
-setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
+const state = EditorState.create({
+  schema
+});
+
+const view = new EditorView(editor, {
+    state,
+    dispatchTransaction: (transaction) => {
+        console.log('Applying transaction...', transaction);
+        const newState = view.state.apply(transaction);
+        view.updateState(newState);
+    },
+});

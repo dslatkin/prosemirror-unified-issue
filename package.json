@@ -9,6 +9,9 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "prosemirror-schema-basic": "^1.2.2",
+    "prosemirror-state": "^1.4.3",
+    "prosemirror-view": "^1.32.4",
     "typescript": "^5.0.2",
     "vite": "^4.4.5"
   }
